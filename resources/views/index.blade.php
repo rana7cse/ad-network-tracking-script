@@ -5,7 +5,7 @@
     class AdTracker {
         constructor() {
             this.conversionType = null;
-            this.trackingUrl = "http://localhost:3000/track?";
+            this.trackingUrl = "http://localhost:3000/track";
         }
 
         conversion(type) {
@@ -14,7 +14,7 @@
         }
 
         track(trackingConfig) {
-            const queryParameters = {
+            const configAsParam = {
                 cid: trackingConfig.campaignId,
                 crid: trackingConfig.creativeId,
                 bid: trackingConfig.browserId,
@@ -23,13 +23,25 @@
                 conv: this.conversionType
             };
 
-            const fullURL = this.trackingUrl + new URLSearchParams(queryParameters).toString();
+
+            this.loadImageUrl(
+                this.buildUrl(configAsParam)
+            );
+
+            return this;
+        }
+
+        buildUrl(queryParamsObject) {
+            const urlQueryParams = new URLSearchParams(queryParamsObject).toString()
+            return `${this.trackingUrl}?${urlQueryParams}`;
+        }
+
+        loadImageUrl(url) {
             const img = new Image();
-            img.src = fullURL;
+            img.src = url;
             img.width = 0;
             img.height = 0;
             document.body.prepend(img);
-            return this;
         }
     }
 

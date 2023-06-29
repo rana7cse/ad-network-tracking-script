@@ -21,10 +21,9 @@ return new class extends Migration
             $table->unsignedBigInteger('browser_id');
             $table->unsignedBigInteger('device_id');
             $table->unsignedBigInteger('count');
-            $table->timestamps();
             // Composite primary key
             $table->primary([
-                "date", "country_code", "tracking_type", "campaign_id", "creative_id", "browser_id", "device_id"
+                "date", "country_code", "type", "campaign_id", "creative_id", "browser_id", "device_id"
             ]);
         });
     }

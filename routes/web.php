@@ -19,3 +19,5 @@ Route::get('/', function () {
 });
 
 Route::get('/track', [CampaignTrackingController::class, 'tracker']);
+
+

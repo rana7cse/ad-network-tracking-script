@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('campaign_tracking', function (Blueprint $table) {
             $table->date('date');
             $table->string('country_code', 3);
-            $table->tinyInteger('tracking_type')->default(TrackingType::IMPRESSION->value);
+            $table->tinyInteger('type')->default(TrackingType::IMPRESSION->value);
             $table->unsignedBigInteger('campaign_id');
             $table->unsignedBigInteger('creative_id');
             $table->unsignedBigInteger('browser_id');

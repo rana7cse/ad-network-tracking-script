@@ -1,6 +1,9 @@
 <html>
-<head></head>
+<head>
+    <title>Ad campaign tracking script is running</title>
+</head>
 <body>
+<h1>Ad campaign tracking script is running</h1>
 <script>
     class AdTracker {
         constructor() {

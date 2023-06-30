@@ -51,7 +51,58 @@ To save Aggregate data from redis to database table run this command
 ```bash
 ./vendor/bin/sail artisan  campaignData:save
 ```
-### Project internal overview
+### Basic Overview
+#### Main Implementation Files
+The following files contain the main code implementation for the project:
+```bash
+Project Folder(ad-network-tracking-script)
+├── app
+│   ├── Console
+│   │   └── Commands
+│   │       └── SaveCampaignDataToDB.php
+│   ├── Http
+│   │   └── CampaignTrackingController.php
+│   ├── Jobs
+│   │   └── StoreCampaignTrackingData.php
+│   ├── Repositories
+│   │   └── FastStorageRepository.php
+│   └── Services
+│       ├── CampaignTrackingService.php
+│       └── IpStackService.php
+├── resources
+│   ├── views
+│   │   └── index.php
+│   ├── ...
+├── routes
+│   └── web.php
+├── tests
+│   ├── Feature
+│   │   ├── CampaignTrackerTest.php
+│   │   └── SaveCampaignDataCommandTest.php
+│   └── Unit
+│       ├── CampaignTrackingServiceTest.php
+│       └── IPStackServiceTest.php
+├── ...
+```
+#### Implementation summery 
+This summary provides an overview of the implementation process
+
+- The project's root `/` loads the `index.blade.php` file, which contains the main JavaScript tracker implementation.
+- By the JavaScript `track` method, an image URL `/track` is loaded, and a request is sent to the server.
+- The request is received by the `CampaignTrackingController`'s `tracker()` method and send response.
+- The `tracker()` method transforms the request query parameters into campaign data.
+- The `StoreCampaignTrackingData` job is dispatched with the campaign data.
+- The dispatched job calls the `CampaignTrackingService`'s `storeDataToFS()` method to save the campaign data to fast storage.
+- The `IpStackService` interacts with the **IP Stack API**, a third-party service, to retrieve information based on the client's IP address, caching the response for 30 days.
+- The `FastStorageRepository` manages data storage and retrieval from Redis, serving as an intermediary between the application and Redis.
+- The `SaveCampaignDataToDB` command retrieves all campaign data from fast storage using the CampaignTrackingService and saves it to the corresponding database table.
+
+### Next improvement
+- Migrate the JavaScript tracker class into a separate JavaScript file from index.blade.php.
+- Implement data validation and negative checks as necessary.
+- Incorporate the SaveCampaignDataToDB command into the scheduler for automation.
+- Enhance the FastStorageRepository to support additional types of storage.
+- Add more doc block and test cases.
 
 
 

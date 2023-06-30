@@ -13,7 +13,6 @@
 
         conversion(type) {
             this.conversionType = type === "post_impression" ? "imp" : type === "post_click" ? "clk" : null;
-            return this;  // for method chaining
         }
 
         track(trackingConfig) {
@@ -26,10 +25,12 @@
                 conv: this.conversionType
             };
 
+            // check if params are not valid then stop here
             if (!this.checkParams(configAsParam)) {
                 return false;
             }
 
+            // Append image to body
             this.loadImageUrl(
                 this.buildUrl(configAsParam)
             );

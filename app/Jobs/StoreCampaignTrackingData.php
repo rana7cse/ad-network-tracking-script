@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Services\CampaignTrackingService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,6 +27,7 @@ class StoreCampaignTrackingData implements ShouldQueue
     public function handle(): void
     {
         $trackingService = app(CampaignTrackingService::class);
+        // Store data to fast storage
         $trackingService->storeDataToFS($this->campaignData);
     }
 }

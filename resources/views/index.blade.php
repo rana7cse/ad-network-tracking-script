@@ -5,7 +5,7 @@
     class AdTracker {
         constructor() {
             this.conversionType = null;
-            this.trackingUrl = "http://localhost:8070/track";
+            this.trackingUrl = "http://localhost:3000/track";
         }
 
         conversion(type) {

@@ -32,6 +32,11 @@ The docker-compose services are mapped to the following host ports in `docker-co
 - MySQL: Port 3370
 - Redis: Port 6379
 
+Next, copy the .env.example file to .env using the following command:
+``` bash
+cp .env.example .env
+```
+
 Following commands to run migration, queue task.
 
 ```bash

@@ -2,12 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\CampaignTracking;
 use App\Services\CampaignTrackingService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 
 class SaveCampaignDataToDB extends Command
 {
@@ -25,21 +23,33 @@ class SaveCampaignDataToDB extends Command
      */
     protected $description = 'Aggregate campaign data from Redis to campaign_tracking table';
 
+    protected CampaignTrackingService $trackingService;
+
+    public function __construct(CampaignTrackingService $trackingService)
+    {
+        parent::__construct();
+        $this->trackingService = $trackingService;
+    }
+
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $trackingService = app(CampaignTrackingService::class);
-        $keys = $trackingService->getAllCampaignKeys();
+        $keys = $this->trackingService->getAllCampaignKeys();
         foreach ($keys as $key) {
-            $key = str_replace(config('database.redis.options.prefix'), "", $key);
-            $campaignData = $trackingService->getDataByKey($key);
-            // Campaign data saving to db
-            DB::table('campaign_tracking')->updateOrInsert(
-                Arr::except($campaignData,['count']),
-                ['count' => $campaignData['count']]
-            );
+            $this->processKey($key);
         }
+    }
+
+    private function processKey($key)
+    {
+        $key = str_replace(config('database.redis.options.prefix'), "", $key);
+        $campaignData = $this->trackingService->getDataByKey($key);
+        // Campaign data saving to db
+        return DB::table('campaign_tracking')->updateOrInsert(
+            Arr::except($campaignData, ['count']),
+            ['count' => $campaignData['count']]
+        );
     }
 }

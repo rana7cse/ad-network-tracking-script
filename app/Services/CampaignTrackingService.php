@@ -59,7 +59,7 @@ class CampaignTrackingService
      * @param string $prefix
      * @return string
      */
-    protected function getCacheKey(array $data, $prefix = 'ad'): string
+    public function getCacheKey(array $data, $prefix = 'ad'): string
     {
         $keys = array_keys($data);
 

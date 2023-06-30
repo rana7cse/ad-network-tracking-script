@@ -6,6 +6,7 @@ use App\Enum\TrackingType;
 use App\Jobs\StoreCampaignTrackingData;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CampaignTrackingController extends Controller
 {
@@ -21,8 +22,23 @@ class CampaignTrackingController extends Controller
             'date' => Carbon::now()->format('Y-m-d')
         ];
 
+        /*
+         *  Added these lines to send dummy image response
+         * */
+        $imageUrl = 'https://placehold.co/600x400/png';
+
+        $imageContent = Cache::remember($imageUrl, Carbon::now()->addDays(10), function () use ($imageUrl) {
+          return file_get_contents($imageUrl);
+        });
+
+        // Send data to background queue job
         dispatch(new StoreCampaignTrackingData($campaignData))->onQueue('track');
 
-        return response()->json([], 200);
+        return response($imageContent, 200, [
+            'Content-Type' => 'image/png',
+            'Content-Length' => strlen($imageContent),
+            'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma' => 'no-cache',
+        ]);
     }
 }

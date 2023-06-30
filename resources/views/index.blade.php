@@ -23,6 +23,9 @@
                 conv: this.conversionType
             };
 
+            if (!this.checkParams(configAsParam)) {
+                return false;
+            }
 
             this.loadImageUrl(
                 this.buildUrl(configAsParam)
@@ -42,6 +45,14 @@
             img.width = 0;
             img.height = 0;
             document.body.prepend(img);
+        }
+
+        checkParams(params) {
+            for (let key in params) {
+                if (!params[key]) return false
+            }
+
+            return true;
         }
     }
 

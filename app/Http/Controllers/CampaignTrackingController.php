@@ -23,8 +23,6 @@ class CampaignTrackingController extends Controller
 
         dispatch(new StoreCampaignTrackingData($campaignData))->onQueue('track');
 
-        return response()->json([
-            'msg' => 'wow'
-        ]);
+        return response()->json([], 200);
     }
 }

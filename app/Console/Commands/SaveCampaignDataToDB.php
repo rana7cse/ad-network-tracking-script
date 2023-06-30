@@ -35,6 +35,7 @@ class SaveCampaignDataToDB extends Command
         foreach ($keys as $key) {
             $key = str_replace(config('database.redis.options.prefix'), "", $key);
             $campaignData = $trackingService->getDataByKey($key);
+            // Campaign data saving to db
             DB::table('campaign_tracking')->updateOrInsert(
                 Arr::except($campaignData,['count']),
                 ['count' => $campaignData['count']]

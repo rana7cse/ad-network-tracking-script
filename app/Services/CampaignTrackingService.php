@@ -18,7 +18,7 @@ class CampaignTrackingService
      * @param array $data
      * @return bool
      */
-    public function storeDataToStorage(array $data) : bool
+    public function storeDataToFS(array $data) : bool
     {
         // get country info by client ip
         $countryInfo = $this->ipStackService->getCountryInfo(

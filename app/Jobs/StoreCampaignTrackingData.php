@@ -28,6 +28,6 @@ class StoreCampaignTrackingData implements ShouldQueue
     public function handle(): void
     {
         $trackingService = app(CampaignTrackingService::class);
-        $trackingService->storeDataToFastStorage($this->campaignData);
+        $trackingService->storeDataToFS($this->campaignData);
     }
 }

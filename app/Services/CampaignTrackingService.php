@@ -54,6 +54,16 @@ class CampaignTrackingService
     }
 
     /**
+     * Remove key data
+     * @param $key
+     * @return bool
+     */
+    public function removeDataByKey($key): bool
+    {
+        return $this->fsRepository->removeKey($key);
+    }
+
+    /**
      * Generate key for fast storage hash
      * @param array $data
      * @param string $prefix

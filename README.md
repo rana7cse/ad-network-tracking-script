@@ -98,6 +98,7 @@ This summary provides an overview of the implementation process
 - The `SaveCampaignDataToDB` command retrieves all campaign data from fast storage using the CampaignTrackingService and saves it to the corresponding database table.
 
 ### Next improvement
+- Implement rate limiting or request throttling mechanisms to prevent tracking on every request.
 - Migrate the JavaScript tracker class into a separate JavaScript file from index.blade.php.
 - Implement data validation and negative checks as necessary.
 - Incorporate the SaveCampaignDataToDB command into the scheduler for automation.
